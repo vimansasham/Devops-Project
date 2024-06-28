@@ -1,0 +1,61 @@
+pipeline {
+    agent any
+
+    environment {
+       
+        FRONTEND_IMAGE = 'vimansa/frontend1'
+        REPO_URL = 'https://github.com/vimansasham/Devops-Project'
+        BRANCH = 'main'
+    }
+
+    stages {
+        stage('SCM Checkout') {
+            steps {
+                retry(3) {
+                    git branch: "${env.BRANCH}", url: "${env.REPO_URL}"
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {  
+                script {
+                   
+                    bat "docker build -t ${env.FRONTEND_IMAGE}:%BUILD_NUMBER% ./frontend"
+                }
+            }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                withCredentials([string(credentialsId: 'test-dockerhubpassword', variable: 'vima')]) {
+                    bat "docker login -u vimansa -p ${vima}"
+                }
+            }
+        }
+
+        stage('Push Images') {
+            steps {
+                script {
+                    
+                    bat "docker push ${env.FRONTEND_IMAGE}:%BUILD_NUMBER%"
+                }
+            }
+        }
+
+        stage('Deploy Containers') {
+            steps {
+                script {
+                    bat "docker-compose build"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            bat 'docker logout'
+        }
+        
+    }
+}
