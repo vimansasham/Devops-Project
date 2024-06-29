@@ -35,7 +35,7 @@ const Login = () => {
             <img className="group-child20" alt="" src="/rectangle-4@2x.png" />
             <b className="welcome-to-wisdom-container">
               <p className="welcome-to-wisdom">{`ACCEPT TO WISDOM ACADEMY ONLINE `}</p>
-              <p className="welcome-to-wisdom">EDUCATION SYSTEM</p>
+              <p className="welcome-to-wisdom">EDUCATION SCHOOL</p>
             </b>
           </div>
         </div>
