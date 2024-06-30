@@ -4,16 +4,16 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile  # Path to your Dockerfile
+      dockerfile: Dockerfile  
     ports:
-      - '3000:3000'  # Map port 3000 on host to port 3000 in container
+      - '3000:3000' 
     volumes:
-      - .:/app  # Mount current directory to /app in the container for live code reloading
+      - .:/app  
     environment:
-      - NODE_ENV=development  # Set environment variables as needed
+      - NODE_ENV=development  
     networks:
-      - app-network  # Connect to the app-network
+      - app-network  
 
 networks:
   app-network:
-    driver: bridge  # Use bridge network for app container
+    driver: bridge  
